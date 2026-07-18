@@ -1,15 +1,16 @@
-name: Update LeetCode Stats
+name: Sync Leetcode
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' # Runs every day at midnight
-  workflow_dispatch: # Allows manual triggering
+    - cron: "0 8 * * 6" # Runs weekly (or adjust as needed)
 
 jobs:
-  update-readme:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: LeetCode Stats
-        uses: LeetCode
+      - name: Run Sync
+        uses: joshcai/leetcode-sync@v1.5
         with:
-          username: PiyushPN
+          github-token: ${{ github.token }}
+          leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
+          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
